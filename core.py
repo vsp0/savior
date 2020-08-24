@@ -32,9 +32,9 @@ while True:
         'new_id': commands.new_id,
     }
 
-    encrypt_file(passwd, remove=False)
-
     cmd = input('>>> ')
 
     if cmd in valid_commands.keys():
         valid_commands[cmd]()
+
+    encrypt_file(passwd, remove=False)

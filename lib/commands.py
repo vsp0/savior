@@ -1,4 +1,5 @@
 from .files import encrypt_file
+from . import ids
 import random
 import json
 import os
@@ -27,10 +28,20 @@ def new_id():
 
 
     first_name = input('/ First name: ')
+
+    if first_name == '':
+        first_name = ids.get_first_name()
+
     last_name = input('/ Last name: ')
+
+    if last_name == '':
+        last_name = ids.get_last_name()
 
     email = input('Email: ')
     password = input('/ Password: ')
+
+    if password == '':
+        password = ids.get_password(18)
     
     id_ = {
         'id_name': name,
