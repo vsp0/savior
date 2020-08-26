@@ -1,4 +1,5 @@
 import pyAesCrypt
+import json
 import os
 
 
@@ -29,3 +30,9 @@ def decrypt_file(key):
     pyAesCrypt.decryptFile("data/en_pws.json", "data/de_pws.json", key, buffer_size)
 
 
+def save_to_decrypted(ids, custom_message=None):
+    with open('data/de_pws.json', 'w') as f:
+        json.dump(ids, f, indent=4)
+    
+    if custom_message:
+        print(custom_message)

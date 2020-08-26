@@ -30,11 +30,18 @@ while True:
     valid_commands = {
         'exit': commands._exit,
         'new_id': commands.new_id,
+        'edit': commands.edit_id,
     }
 
     cmd = input('>>> ')
 
-    if cmd in valid_commands.keys():
+    if cmd == '':
+        pass
+    
+    elif cmd in valid_commands.keys():
         valid_commands[cmd]()
+
+    else:
+        print('Command not found.')
 
     encrypt_file(passwd, remove=False)

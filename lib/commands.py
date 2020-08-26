@@ -1,14 +1,55 @@
-from .files import encrypt_file
+from . import files
 from . import ids
+
 import random
 import json
 import os
 
 
-def _exit():
-    os.remove('data/de_pws.json')
+def edit_id():
+    print('Options: first_name, last_name, email or password')
 
-    exit()
+    edit = input('Edit: ')
+    
+    editable = ['first_name', 'last_name', 'email', 'password']
+
+    while edit not in editable:
+        print('Please, choose one of the following: first_name, last_name, email or password')
+        
+        edit = input('Edit: ')
+
+    if edit in editable:
+        id_name = input('ID name: ')
+        
+        de = json.load(open('data/de_pws.json'))
+
+        while id_name not in de.keys():
+            print('ID name doesen\'t exist.')
+
+            id_name = input('ID name: ')
+
+        if id_name in de.keys():
+            if edit == 'password':
+                new_password = input('New password: ')
+                confirm_password = input('Confirm: ')
+
+                while new_password != confirm_password:
+                    print('Passwords didn\'t match.')
+
+                    new_password = input('New password: ')
+                    confirm_password = input('Confirm: ')
+
+                if new_password == confirm_password:
+                    de[id_name]['password'] = new_password
+
+                    files.save_to_decrypted(de, 'Password has been changed.')
+            
+            else:
+                new_value = input(f'Enter new {edit}: ')
+                
+                de[id_name][edit] = new_value
+
+                files.save_to_decrypted(de, f'{edit} has been changed.')
 
 
 def new_id():
@@ -16,7 +57,7 @@ def new_id():
 
     de_pws = json.load(open('data/de_pws.json'))
 
-    name = input('/ Call the new id for something: ')
+    name = input('/ Call the new ID for something: ')
 
     if name == '':
         name = str(random.randint(1000000000, 9999999999))
@@ -24,24 +65,14 @@ def new_id():
     while name in de_pws.keys():
         print('ID already exists.')
 
-        name = input('/ Call the new id for something: ')
+        name = input('/ Call the new ID for something: ')
 
 
-    first_name = input('/ First name: ')
-
-    if first_name == '':
-        first_name = ids.get_first_name()
-
-    last_name = input('/ Last name: ')
-
-    if last_name == '':
-        last_name = ids.get_last_name()
+    first_name = ids.get_first_name()
+    last_name = ids.get_last_name()
 
     email = input('Email: ')
-    password = input('/ Password: ')
-
-    if password == '':
-        password = ids.get_password(18)
+    password = ids.get_password()
     
     id_ = {
         'id_name': name,
@@ -53,5 +84,10 @@ def new_id():
     
     de_pws[name] = id_
 
-    with open('data/de_pws.json', 'w') as de:
-        json.dump(de_pws, de, indent=4)
+    files.save_to_decrypted(de_pws, 'Created new ID.')
+
+
+def _exit():
+    os.remove('data/de_pws.json')
+
+    exit()
