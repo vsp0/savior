@@ -7,6 +7,8 @@ import os
 
 
 def edit_id():
+    """Edit's a specific ID."""
+
     print('Options: first_name, last_name, email or password')
 
     edit = input('Edit: ')
@@ -53,6 +55,8 @@ def edit_id():
 
 
 def new_id():
+    """Creates a new id."""
+
     print('The \'/\' in the start means that it\'ll be random it it\'s not specified.\n')
 
     de_pws = json.load(open('data/de_pws.json'))
@@ -84,10 +88,22 @@ def new_id():
     
     de_pws[name] = id_
 
-    files.save_to_decrypted(de_pws, 'Created new ID.')
+    files.save_to_decrypted(de_pws, 'Created new ID. ID(s) can be viewed at data/de_pws.json')
+
+
+def _help():
+    """Displays this message."""
+
+    print(f"""help - {_help.__doc__}
+new - {new_id.__doc__}
+edit - {edit_id.__doc__}
+exit - {_exit.__doc__}""")
+    
 
 
 def _exit():
+    """Terminate and removes data/de_pws.json"""
+
     os.remove('data/de_pws.json')
 
     exit()

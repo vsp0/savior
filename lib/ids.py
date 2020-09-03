@@ -41,5 +41,3 @@ def get_password():
                 break
 
     return password
-
-print(get_password())

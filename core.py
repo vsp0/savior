@@ -31,6 +31,7 @@ while True:
         'exit': commands._exit,
         'new_id': commands.new_id,
         'edit': commands.edit_id,
+        'help': commands._help,
     }
 
     cmd = input('>>> ')
